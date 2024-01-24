@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDoList.TaskManager", "ToDoList.TaskManager", "{D1848B24-5E43-4507-9BF3-F246F53D03D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Api", "TaskManager.Api\TaskManager.Api.csproj", "{417730B7-8340-4393-BDD0-BAC316CADE0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infrastructure", "TaskManager.Infrastructure\TaskManager.Infrastructure.csproj", "{ACCB05CA-A81F-45F4-9787-5AF9794BF26D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Application", "TaskManager.Application\TaskManager.Application.csproj", "{24C79184-0C07-4894-AB38-D0F164063345}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Domain", "TaskManager.Domain\TaskManager.Domain.csproj", "{7A3C079C-0B99-4326-AFE6-1B10401B94A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDoList.Authentication", "ToDoList.Authentication", "{B37A9DB9-F446-411A-B652-5AA448EDFB05}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{417730B7-8340-4393-BDD0-BAC316CADE0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{417730B7-8340-4393-BDD0-BAC316CADE0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{417730B7-8340-4393-BDD0-BAC316CADE0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{417730B7-8340-4393-BDD0-BAC316CADE0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACCB05CA-A81F-45F4-9787-5AF9794BF26D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACCB05CA-A81F-45F4-9787-5AF9794BF26D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACCB05CA-A81F-45F4-9787-5AF9794BF26D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACCB05CA-A81F-45F4-9787-5AF9794BF26D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24C79184-0C07-4894-AB38-D0F164063345}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24C79184-0C07-4894-AB38-D0F164063345}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24C79184-0C07-4894-AB38-D0F164063345}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24C79184-0C07-4894-AB38-D0F164063345}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A3C079C-0B99-4326-AFE6-1B10401B94A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A3C079C-0B99-4326-AFE6-1B10401B94A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A3C079C-0B99-4326-AFE6-1B10401B94A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A3C079C-0B99-4326-AFE6-1B10401B94A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{417730B7-8340-4393-BDD0-BAC316CADE0F} = {D1848B24-5E43-4507-9BF3-F246F53D03D6}
+		{ACCB05CA-A81F-45F4-9787-5AF9794BF26D} = {D1848B24-5E43-4507-9BF3-F246F53D03D6}
+		{24C79184-0C07-4894-AB38-D0F164063345} = {D1848B24-5E43-4507-9BF3-F246F53D03D6}
+		{7A3C079C-0B99-4326-AFE6-1B10401B94A2} = {D1848B24-5E43-4507-9BF3-F246F53D03D6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0BC68C6-182A-4527-9AB9-1F957B088783}
+	EndGlobalSection
+EndGlobal
