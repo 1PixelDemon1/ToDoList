@@ -23,11 +23,14 @@ namespace TaskManager.Application.Commands
             {
                 throw new TaskNotFoundException(_id);
             }
-            // TODO 
+            //TODO try remove that
             task.Author.RemoveTask(task.Id);
-            foreach (var taskGroup in task.TaskGroups)
+            if(task.TaskGroups != null)
             {
-                taskGroup.RemoveTask(task.Id);
+                foreach (var taskGroup in task.TaskGroups)
+                {
+                    taskGroup.RemoveTask(task.Id);
+                }
             }
             _unitOfWork.Tasks.Remove(task);
             _unitOfWork.SaveChanges();

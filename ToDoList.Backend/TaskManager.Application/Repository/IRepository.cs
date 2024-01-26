@@ -10,8 +10,8 @@ namespace TaskManager.Application.Interface
     {
         void Add(T entity);
         void Update(T entity);
-        T Get(Func<T, bool> filter);
-        ICollection<T> Where(Func<T, bool> filter);
+        T? Get(Func<T, bool> filter);
+        ICollection<T>? Where(Func<T, bool> filter);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);
     }
