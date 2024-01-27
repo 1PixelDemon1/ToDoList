@@ -2,31 +2,29 @@ using TaskManager.Application.Exceptions;
 using TaskManager.Application.Interface;
 using Task = TaskManager.Domain.Entities.Task;
 
-namespace TaskManager.Application.Commands
+namespace TaskManager.Application.Queries
 {
-    public class RemoveTaskCommand : BaseCommand
+    public class GetTaskQuery : BaseQuery<Task>
     {
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly int _id;
 
-        public RemoveTaskCommand(IUnitOfWork unitOfWork, int id)
+        public GetTaskQuery(IUnitOfWork unitOfWork, int id)
         {
-            _unitOfWork = unitOfWork;
             _id = id;
+            _unitOfWork = unitOfWork;
         }
-
-        public override void Execute()
+        public override Task Execute()
         {
             var task = _unitOfWork.Tasks.Get(task => task.Id == _id);
             if (task == null) throw new TaskNotFoundException(_id);
-            _unitOfWork.Tasks.Remove(task);
-            _unitOfWork.SaveChanges();
+            return task;
         }
 
         public override void Validate()
         {
-            if (_id <= 0) throw new TaskNotFoundException(_id);
+            if(_id <= 0) throw new TaskNotFoundException(_id);
         }
     }
 }

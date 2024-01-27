@@ -1,4 +1,6 @@
+using TaskManager.Application.Commands;
 using TaskManager.Application.Interface;
+using TaskManager.Application.Queries;
 using TaskManager.Application.Services.Interface;
 using TaskManager.Domain.Entities;
 using Task = TaskManager.Domain.Entities.Task;
@@ -14,39 +16,34 @@ namespace TaskManager.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public void AddTask(Task task)
+        public IEnumerable<Task>? GetAll()
         {
-            throw new NotImplementedException();
+            return new GetAllTasksQuery(_unitOfWork).Handle();
         }
 
-        public ICollection<Task>? GetAll()
+        public User GetOwner(int taskId)
         {
-            throw new NotImplementedException();
+            return new GetTaskAuthorQuery(_unitOfWork, taskId).Handle();
         }
 
-        public User GetOwner(int taskGroupId)
+        public Task GetTask(int taskId)
         {
-            throw new NotImplementedException();
+            return new GetTaskQuery(_unitOfWork, taskId).Handle();
         }
 
-        public Task? GetTask(int taskId)
+        public IEnumerable<TaskGroup>? GetTaskGroups(int taskId)
         {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<TaskGroup> GetTaskGroups(int taskId)
-        {
-            throw new NotImplementedException();
+            return new GetGroupsFromTaskQuery(_unitOfWork, taskId).Handle();
         }
 
         public void RemoveTask(int id)
         {
-            throw new NotImplementedException();
+            new RemoveTaskCommand(_unitOfWork, id).Handle();
         }
 
-        public void UpdateTask(Task task)
+        public void UpdateTask(int taskId, Task task)
         {
-            throw new NotImplementedException();
+            new UpdateTaskCommand(_unitOfWork, taskId, task);
         }
     }
 }

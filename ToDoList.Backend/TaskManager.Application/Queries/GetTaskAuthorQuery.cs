@@ -1,27 +1,27 @@
 using TaskManager.Application.Exceptions;
 using TaskManager.Application.Interface;
+using TaskManager.Domain.Entities;
 using Task = TaskManager.Domain.Entities.Task;
 
-namespace TaskManager.Application.Commands
+namespace TaskManager.Application.Queries
 {
-    public class RemoveTaskCommand : BaseCommand
+    public class GetTaskAuthorQuery : BaseQuery<User>
     {
-
         private readonly IUnitOfWork _unitOfWork;
         private readonly int _id;
 
-        public RemoveTaskCommand(IUnitOfWork unitOfWork, int id)
+        public GetTaskAuthorQuery(IUnitOfWork unitOfWork, int id)
         {
             _unitOfWork = unitOfWork;
             _id = id;
         }
 
-        public override void Execute()
+        public override User Execute()
         {
-            var task = _unitOfWork.Tasks.Get(task => task.Id == _id);
+            var task = _unitOfWork.Tasks.Get(task => task.Id == _id, "Author");
             if (task == null) throw new TaskNotFoundException(_id);
-            _unitOfWork.Tasks.Remove(task);
-            _unitOfWork.SaveChanges();
+            if (task.Author == null) throw new ApplicationException("task has no author");
+            return task.Author;
         }
 
         public override void Validate()

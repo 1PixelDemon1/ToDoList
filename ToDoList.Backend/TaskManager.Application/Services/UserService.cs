@@ -1,3 +1,7 @@
+using System.Net;
+using TaskManager.Application.Commands;
+using TaskManager.Application.Interface;
+using TaskManager.Application.Queries;
 using TaskManager.Application.Services.Interface;
 using TaskManager.Domain.Entities;
 using Task = TaskManager.Domain.Entities.Task;
@@ -6,59 +10,65 @@ namespace TaskManager.Application.Services
 {
     public class UserService : IUserService
     {
-        public void AddNewTaskGroup(int userId, TaskGroup taskGroup)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UserService(IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
+        }
+
+        public void AddTaskGroup(int userId, TaskGroup taskGroup)
+        {
+            User author = new GetUserQuery(_unitOfWork, userId).Handle();
+            var newTaskGroup = new TaskGroup(author, taskGroup.Name, taskGroup.Tasks, taskGroup.IsPrivate, taskGroup.AllowedUsers);
+            new AddTaskGroupCommand(_unitOfWork, newTaskGroup).Handle();
         }
 
         public void AddTask(int userId, Task task)
         {
-            throw new NotImplementedException();
+            User author = new GetUserQuery(_unitOfWork, userId).Handle();
+            var newTask = new Task(author, task.Name, task.Description, task.DeadLine, task.State, task.TaskGroups);
+            new AddTaskCommand(_unitOfWork, newTask).Handle();
         }
 
         public void AddUser(User user)
         {
-            throw new NotImplementedException();
+            new AddUserCommand(_unitOfWork, user).Handle();
         }
 
-        public ICollection<User>? GetAll()
+        public IEnumerable<User>? GetAll()
         {
-            throw new NotImplementedException();
+            return new GetAllUsersQuery(_unitOfWork).Handle();
         }
 
-        public ICollection<TaskGroup>? GetTaskGroups(int userId)
+        public IEnumerable<TaskGroup>? GetTaskGroups(int userId)
         {
-            throw new NotImplementedException();
+            return new GetGroupsFromUserQuery(_unitOfWork, userId).Handle();
         }
 
-        public ICollection<Task>? GetTasks(int userId)
+        public IEnumerable<TaskGroup>? GetAccessibleGroups(int userId)
         {
-            throw new NotImplementedException();
+            return new GetAccessibleGroupsFromUserQuery(_unitOfWork, userId).Handle();
         }
 
-        public User? GetUser(int id)
+        public IEnumerable<Task>? GetTasks(int userId)
         {
-            throw new NotImplementedException();
+            return new GetTasksFromUserQuery(_unitOfWork, userId).Handle();
         }
 
-        public void RemoveTask(int userId, int taskId)
+        public User GetUser(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveTaskGroup(int userId, int taskGroupId)
-        {
-            throw new NotImplementedException();
+            return new GetUserQuery(_unitOfWork, id).Handle();
         }
 
         public void RemoveUser(int id)
         {
-            throw new NotImplementedException();
+            new RemoveUserCommand(_unitOfWork, id).Handle();
         }
 
-        public void UpdateUser(User user)
+        public void UpdateUser(int id, User user)
         {
-            throw new NotImplementedException();
+            new UpdateUserCommand(_unitOfWork, id, user).Handle();
         }
     }
 }

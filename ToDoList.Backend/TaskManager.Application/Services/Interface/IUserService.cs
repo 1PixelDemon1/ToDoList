@@ -5,17 +5,16 @@ namespace TaskManager.Application.Services.Interface
 {
     public interface IUserService
     {
-        User? GetUser(int id);
-        ICollection<User>? GetAll();
-        ICollection<Task>? GetTasks(int userId);
-        ICollection<TaskGroup>? GetTaskGroups(int userId);
+        User GetUser(int id);
+        IEnumerable<User>? GetAll();
+        IEnumerable<Task>? GetTasks(int userId);
+        IEnumerable<TaskGroup>? GetTaskGroups(int userId);
+        IEnumerable<TaskGroup>? GetAccessibleGroups(int userId);
 
         void AddUser(User user);
         void RemoveUser(int id);
-        void UpdateUser(User user);
+        void UpdateUser(int id, User user);
         void AddTask(int userId, Task task);
-        void RemoveTask(int userId, int taskId);
-        void AddNewTaskGroup(int userId, TaskGroup taskGroup);
-        void RemoveTaskGroup(int userId, int taskGroupId);
+        void AddTaskGroup(int userId, TaskGroup taskGroup);
     }
 }

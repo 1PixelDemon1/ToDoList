@@ -5,13 +5,12 @@ namespace TaskManager.Application.Services.Interface
 {
     public interface ITaskService
     {
-        Task? GetTask(int taskId);
-        ICollection<Task>? GetAll();
-        ICollection<TaskGroup> GetTaskGroups(int taskId);
-        User GetOwner(int taskGroupId);
+        Task GetTask(int taskId);
+        IEnumerable<Task>? GetAll();
+        IEnumerable<TaskGroup>? GetTaskGroups(int taskId);
+        User GetOwner(int taskId);
 
-        void AddTask(Task task);
         void RemoveTask(int id);
-        void UpdateTask(Task task);
+        void UpdateTask(int taskId, Task task);
     }
 }

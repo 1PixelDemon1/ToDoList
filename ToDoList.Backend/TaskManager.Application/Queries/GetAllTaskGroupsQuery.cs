@@ -8,19 +8,20 @@ using TaskManager.Domain.Entities;
 
 namespace TaskManager.Application.Queries
 {
-    public class GetAllUsersQuery : BaseQuery<IEnumerable<User>>
+    public class GetAllTaskGroupsQuery : BaseQuery<IEnumerable<TaskGroup>?>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public GetAllUsersQuery(IUnitOfWork unitOfWork)
+
+        public GetAllTaskGroupsQuery(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public override IEnumerable<User> Execute()
+        public override IEnumerable<TaskGroup>? Execute()
         {
-            return _unitOfWork.Users.Where(user => true);
+            return _unitOfWork.TaskGroups.Where(group => true);
         }
 
-        public override void Validate(){}
+        public override void Validate() {}
     }
 }

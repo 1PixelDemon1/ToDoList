@@ -3,7 +3,7 @@ using Task = TaskManager.Domain.Entities.Task;
 
 namespace TaskManager.Application.Queries
 {
-    public class GetAllTasksQuery : BaseQuery<ICollection<Task>>
+    public class GetAllTasksQuery : BaseQuery<IEnumerable<Task>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -12,7 +12,7 @@ namespace TaskManager.Application.Queries
             _unitOfWork = unitOfWork;
         }
 
-        public override ICollection<Task> Execute()
+        public override IEnumerable<Task> Execute()
         {
             return _unitOfWork.Tasks.Where(task => true);            
         }
