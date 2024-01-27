@@ -12,6 +12,8 @@ namespace TaskManager.Domain.Entities
         public bool IsPrivate { get; set; } = true;
         public ICollection<User>? AllowedUsers { get; private set; }
 
+        public TaskGroup() {}
+
         public TaskGroup(User author, string name, ICollection<Task>? tasks, bool isPrivate, ICollection<User>? allowedUsers)
         {
             Author = author;

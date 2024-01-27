@@ -9,14 +9,17 @@ namespace TaskManager.Domain.Entities
         public string Email { get; private set; }
         public ICollection<Task>? Tasks { get; private set; }
         public ICollection<TaskGroup>? TaskGroups { get; private set; }
+        public ICollection<TaskGroup>? AccessibleTaskGroups { get; private set; }
 
-        public User(string fullName, string email, ICollection<Task>? tasks = null, ICollection<TaskGroup>? taskGroups = null)
+        public User() {}
+
+        public User(string fullName, string email, ICollection<Task>? tasks = null, ICollection<TaskGroup>? taskGroups = null, ICollection<TaskGroup>? accessibleTaskGroups = null)
         {
             FullName = fullName;
             Email = email;
             Tasks = tasks;
             TaskGroups = taskGroups;
-
+            AccessibleTaskGroups = accessibleTaskGroups;
             Validate();
         }
 
@@ -27,6 +30,7 @@ namespace TaskManager.Domain.Entities
             Email = updatedUser.Email;
             Tasks = updatedUser.Tasks;
             TaskGroups = updatedUser.TaskGroups;
+            AccessibleTaskGroups = updatedUser.AccessibleTaskGroups;
         }
 
         public void Validate()
@@ -37,7 +41,7 @@ namespace TaskManager.Domain.Entities
                 throw new ArgumentException($"invalid email address: {Email}");
             }
 
-            if (!string.IsNullOrEmpty(FullName))
+            if (string.IsNullOrEmpty(FullName))
             {
                 throw new ArgumentException($"invalid name: {FullName}");
             }
@@ -82,6 +86,19 @@ namespace TaskManager.Domain.Entities
             else
             {
                 TaskGroups.Add(taskGroup);
+            }
+        }
+
+        public void GetAccess(TaskGroup taskGroup)
+        {
+            taskGroup.AddAllowedUser(this);
+            if(AccessibleTaskGroups == null)
+            {
+                AccessibleTaskGroups = new List<TaskGroup> { taskGroup };
+            }
+            else
+            {
+                AccessibleTaskGroups.Add(taskGroup);
             }
         }
     }

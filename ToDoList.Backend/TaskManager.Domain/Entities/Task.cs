@@ -8,14 +8,18 @@ namespace TaskManager.Domain.Entities
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
+        public DateTime? DeadLine { get; set; }
         public TaskState State { get; private set; }
         public ICollection<TaskGroup>? TaskGroups { get; private set; }
 
-        public Task(User author, string name, string description, TaskState state, ICollection<TaskGroup>? taskGroups)
+        public Task() {}
+
+        public Task(User author, string name, string description, DateTime? deadLine, TaskState state, ICollection<TaskGroup>? taskGroups = null)
         {
             Author = author;
             Name = name;
             Description = description;
+            DeadLine = deadLine;
             State = state;
             TaskGroups = taskGroups;
 
@@ -24,9 +28,7 @@ namespace TaskManager.Domain.Entities
 
         public void Validate()
         {
-            Author.Validate();
-
-            if (!string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(Name))
             {
                 throw new ArgumentException($"invalid name: {Name}");
             }
@@ -43,6 +45,7 @@ namespace TaskManager.Domain.Entities
             Author = newTask.Author;
             Name = newTask.Name;
             Description = newTask.Description;
+            DeadLine = newTask.DeadLine;
             State = newTask.State;
             TaskGroups = newTask.TaskGroups;
         }
