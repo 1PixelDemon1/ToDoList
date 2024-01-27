@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TaskManager.Application.Interface;
@@ -26,9 +27,19 @@ namespace TaskManager.Infrastructure.Repository
             dbSet.Add(entity);
         }
 
-        public T? Get(Func<T, bool> filter)
+        public T? Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
-            return dbSet.FirstOrDefault(filter);
+            IQueryable<T> query = dbSet;
+            query = query.Where(filter);
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+            return query.FirstOrDefault();
         }
 
         public void Remove(T entity)
@@ -46,9 +57,19 @@ namespace TaskManager.Infrastructure.Repository
             dbSet.Update(entity);
         }
 
-        public ICollection<T>? Where(Func<T, bool> filter)
+        public IEnumerable<T>? Where(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
-            return dbSet.Where(filter) as ICollection<T>;
+            IQueryable<T> query = dbSet;
+            query = query.Where(filter);
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+            return query;
         }
     }
 }
