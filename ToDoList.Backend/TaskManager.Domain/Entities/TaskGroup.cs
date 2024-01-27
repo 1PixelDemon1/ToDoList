@@ -38,8 +38,6 @@ namespace TaskManager.Domain.Entities
 
         public void Validate()
         {
-            Author.Validate();
-
             if(string.IsNullOrEmpty(Name))
             {
                 throw new ArgumentException($"invalid name: {Name}");
