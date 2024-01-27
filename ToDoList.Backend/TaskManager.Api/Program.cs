@@ -1,3 +1,7 @@
+using TaskManager.Api.Config;
+using TaskManager.Api.ResponseProvider;
+using TaskManager.Application;
+using TaskManager.Infrastructure;
 
 namespace TaskManager.Api
 {
@@ -7,12 +11,18 @@ namespace TaskManager.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            //TODO:
+            // Implement Auth
+            // Implement Front
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddApplication();
+            builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddAutoMapper(typeof(MapperProfile));
+            builder.Services.AddScoped<IResponseProvider, ResponseProvider.ResponseProvider>();
 
             var app = builder.Build();
 
@@ -26,7 +36,6 @@ namespace TaskManager.Api
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
