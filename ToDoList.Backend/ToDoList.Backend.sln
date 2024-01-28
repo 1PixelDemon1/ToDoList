@@ -5,15 +5,17 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDoList.TaskManager", "ToDoList.TaskManager", "{D1848B24-5E43-4507-9BF3-F246F53D03D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Api", "TaskManager.Api\TaskManager.Api.csproj", "{417730B7-8340-4393-BDD0-BAC316CADE0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Api", "TaskManager.Api\TaskManager.Api.csproj", "{417730B7-8340-4393-BDD0-BAC316CADE0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infrastructure", "TaskManager.Infrastructure\TaskManager.Infrastructure.csproj", "{ACCB05CA-A81F-45F4-9787-5AF9794BF26D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infrastructure", "TaskManager.Infrastructure\TaskManager.Infrastructure.csproj", "{ACCB05CA-A81F-45F4-9787-5AF9794BF26D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Application", "TaskManager.Application\TaskManager.Application.csproj", "{24C79184-0C07-4894-AB38-D0F164063345}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application", "TaskManager.Application\TaskManager.Application.csproj", "{24C79184-0C07-4894-AB38-D0F164063345}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Domain", "TaskManager.Domain\TaskManager.Domain.csproj", "{7A3C079C-0B99-4326-AFE6-1B10401B94A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Domain", "TaskManager.Domain\TaskManager.Domain.csproj", "{7A3C079C-0B99-4326-AFE6-1B10401B94A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDoList.Authentication", "ToDoList.Authentication", "{B37A9DB9-F446-411A-B652-5AA448EDFB05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.AuthService", "ToDoList.AuthService\ToDoList.AuthService.csproj", "{0221057D-5747-4FED-B442-AD0DD03059E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{7A3C079C-0B99-4326-AFE6-1B10401B94A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A3C079C-0B99-4326-AFE6-1B10401B94A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A3C079C-0B99-4326-AFE6-1B10401B94A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0221057D-5747-4FED-B442-AD0DD03059E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0221057D-5747-4FED-B442-AD0DD03059E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0221057D-5747-4FED-B442-AD0DD03059E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0221057D-5747-4FED-B442-AD0DD03059E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{ACCB05CA-A81F-45F4-9787-5AF9794BF26D} = {D1848B24-5E43-4507-9BF3-F246F53D03D6}
 		{24C79184-0C07-4894-AB38-D0F164063345} = {D1848B24-5E43-4507-9BF3-F246F53D03D6}
 		{7A3C079C-0B99-4326-AFE6-1B10401B94A2} = {D1848B24-5E43-4507-9BF3-F246F53D03D6}
+		{0221057D-5747-4FED-B442-AD0DD03059E7} = {B37A9DB9-F446-411A-B652-5AA448EDFB05}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0BC68C6-182A-4527-9AB9-1F957B088783}
