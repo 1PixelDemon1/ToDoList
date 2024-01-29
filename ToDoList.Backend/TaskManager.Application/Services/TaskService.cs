@@ -43,7 +43,7 @@ namespace TaskManager.Application.Services
 
         public void UpdateTask(int taskId, Task task)
         {
-            new UpdateTaskCommand(_unitOfWork, taskId, task);
+            new UpdateTaskCommand(_unitOfWork, taskId, task).Handle();
         }
     }
 }

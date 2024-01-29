@@ -61,6 +61,11 @@ namespace TaskManager.Application.Services
             return new GetUserQuery(_unitOfWork, id).Handle();
         }
 
+        public User GetUserByEmail(string email)
+        {
+            return new GetUserByEmailQuery(_unitOfWork, email).Handle();
+        }
+
         public void RemoveUser(int id)
         {
             new RemoveUserCommand(_unitOfWork, id).Handle();
@@ -70,5 +75,6 @@ namespace TaskManager.Application.Services
         {
             new UpdateUserCommand(_unitOfWork, id, user).Handle();
         }
+
     }
 }

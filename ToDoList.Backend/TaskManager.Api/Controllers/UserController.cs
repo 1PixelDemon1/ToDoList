@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TaskManager.Api.Dtos;
 using TaskManager.Api.ResponseProvider;
 using TaskManager.Application.Services.Interface;
@@ -8,6 +10,7 @@ using Task = TaskManager.Domain.Entities.Task;
 
 namespace TaskManager.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -41,21 +44,30 @@ namespace TaskManager.Api.Controllers
         public ResponseDto GetTasks(int userId)
         {
             return _responseProvider.GenerateGetResponse(() => 
-                _mapper.Map<IEnumerable<TaskDto>>(_userService.GetTasks(userId)));
+            {
+                ValidateUser(userId);
+                return _mapper.Map<IEnumerable<TaskDto>>(_userService.GetTasks(userId));
+            });
         }
 
         [HttpGet(nameof(GetTaskGroups))]
         public ResponseDto GetTaskGroups(int userId)
         {
             return _responseProvider.GenerateGetResponse(() =>
-                _mapper.Map<IEnumerable<TaskGroupDto>>(_userService.GetTaskGroups(userId)));
+            {
+                ValidateUser(userId);
+                return _mapper.Map<IEnumerable<TaskGroupDto>>(_userService.GetTaskGroups(userId));
+            });
         }
         
         [HttpGet(nameof(GetAccessibleGroups))]
         public ResponseDto GetAccessibleGroups(int userId)
         {
             return _responseProvider.GenerateGetResponse(() =>
-                _mapper.Map<IEnumerable<TaskGroupDto>>(_userService.GetAccessibleGroups(userId)));
+            {
+                ValidateUser(userId);
+                return _mapper.Map<IEnumerable<TaskGroupDto>>(_userService.GetAccessibleGroups(userId));
+            });
         }
 
         [HttpPost(nameof(CreateUser))]
@@ -73,6 +85,7 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(userId);
                 _userService.RemoveUser(userId);
             });
         }
@@ -82,6 +95,7 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(userId);
                 User user = _mapper.Map<User>(userDto);
                 _userService.UpdateUser(userId, user);
             });
@@ -92,6 +106,7 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(userId);
                 Task task = _mapper.Map<Task>(taskDto);
                 _userService.AddTask(userId, task);
             });
@@ -102,9 +117,19 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(userId);
                 TaskGroup taskGroup = _mapper.Map<TaskGroup>(taskGroupDto);
                 _userService.AddTaskGroup(userId, taskGroup);
             });
+        }
+
+        private void ValidateUser(int userId)
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (_userService.GetUserByEmail(userEmail).Id != userId)
+            {
+                throw new UnauthorizedAccessException($"this user cannot perform operations with an account with the specified id: {userId}");
+            }
         }
     }
 }

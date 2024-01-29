@@ -42,12 +42,10 @@ namespace TaskManager.Domain.Entities
         {
             newTask.Validate();
 
-            Author = newTask.Author;
             Name = newTask.Name;
             Description = newTask.Description;
             DeadLine = newTask.DeadLine;
             State = newTask.State;
-            TaskGroups = newTask.TaskGroups;
         }
 
         public void AddToGroup(TaskGroup taskGroup)

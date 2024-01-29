@@ -29,11 +29,8 @@ namespace TaskManager.Domain.Entities
         {
             taskGroup.Validate();
 
-            Author = taskGroup.Author;
             Name = taskGroup.Name;
-            Tasks = taskGroup.Tasks;
             IsPrivate = taskGroup.IsPrivate;
-            AllowedUsers = taskGroup.AllowedUsers;
         }
 
         public void Validate()
@@ -92,10 +89,10 @@ namespace TaskManager.Domain.Entities
         public void RemoveAllowedUser(int id)
         {
             User? allowedUser = AllowedUsers?.FirstOrDefault(user => user.Id == id);
-            if(allowedUser != null)
-            {
-                AllowedUsers?.Remove(allowedUser);
-            }
+            if (allowedUser == null) throw new ArgumentException($"user with given id ({id}) was not found");
+            
+            AllowedUsers?.Remove(allowedUser);
+            
         }
 
         public void SetPrivate(bool isPrivate)

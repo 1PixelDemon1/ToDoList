@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TaskManager.Api.Dtos;
 using TaskManager.Api.ResponseProvider;
+using TaskManager.Application.Services;
 using TaskManager.Application.Services.Interface;
 using TaskManager.Domain.Entities;
 using Task = TaskManager.Domain.Entities.Task;
 
 namespace TaskManager.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TaskGroupController : ControllerBase
@@ -42,21 +46,30 @@ namespace TaskManager.Api.Controllers
         public ResponseDto GetTasks(int taskGroupId)
         {
             return _responseProvider.GenerateGetResponse(() =>
-                _mapper.Map<IEnumerable<TaskDto>?>(_taskGroupService.GetTasks(taskGroupId)));
+            {
+                ValidateUser(taskGroupId);
+                return _mapper.Map<IEnumerable<TaskDto>>(_taskGroupService.GetTasks(taskGroupId));
+            });
         }
         
         [HttpGet(nameof(GetOwner))]
         public ResponseDto GetOwner(int taskGroupId)
         {
             return _responseProvider.GenerateGetResponse(() =>
-                _mapper.Map<UserDto?>(_taskGroupService.GetOwner(taskGroupId)));
+            {
+                ValidateUser(taskGroupId);
+                return _mapper.Map<UserDto>(_taskGroupService.GetOwner(taskGroupId));
+            });
         }
 
         [HttpGet(nameof(GetAllowedUsers))]
         public ResponseDto GetAllowedUsers(int taskGroupId)
         {
             return _responseProvider.GenerateGetResponse(() =>
-                _mapper.Map<IEnumerable<UserDto>?>(_taskGroupService.GetAllowedUsers(taskGroupId)));
+            {
+                ValidateUser(taskGroupId);
+                return _mapper.Map<IEnumerable<UserDto>>(_taskGroupService.GetAllowedUsers(taskGroupId));
+            });
         }
         
         [HttpPost(nameof(RemoveTaskGroup))]
@@ -64,6 +77,7 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(id);
                 _taskGroupService.RemoveTaskGroup(id);
             });
         }
@@ -73,6 +87,7 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(id);
                 TaskGroup taskGroup = _mapper.Map<TaskGroup>(taskGroupDto);
                 _taskGroupService.UpdateTaskGroup(id, taskGroup);
             });
@@ -83,6 +98,7 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(taskGroupId);
                 _taskGroupService.AddTask(taskGroupId, taskId);
             });
         }
@@ -92,6 +108,7 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(taskGroupId);
                 _taskGroupService.RemoveTask(taskGroupId, taskId);
             });
         }
@@ -101,6 +118,7 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(taskGroupId);
                 _taskGroupService.AddAllowedUser(taskGroupId, userId);
             });
         }
@@ -110,8 +128,18 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(taskGroupId);
                 _taskGroupService.RemoveAllowedUser(taskGroupId, userId);
             });
+        }
+
+        private void ValidateUser(int taskGroupId)
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (_taskGroupService.GetOwner(taskGroupId).Email != userEmail)
+            {
+                throw new UnauthorizedAccessException($"this user cannot perform operations with an task group with the specified id: {taskGroupId}");
+            }
         }
     }
 }

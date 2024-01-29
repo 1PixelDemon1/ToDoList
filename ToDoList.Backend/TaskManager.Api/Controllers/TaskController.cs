@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TaskManager.Api.Dtos;
 using TaskManager.Api.ResponseProvider;
+using TaskManager.Application.Services;
 using TaskManager.Application.Services.Interface;
 using Task = TaskManager.Domain.Entities.Task;
 
 namespace TaskManager.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TaskController : ControllerBase
@@ -40,15 +44,19 @@ namespace TaskManager.Api.Controllers
         [HttpGet(nameof(GetTaskGroups))]
         public ResponseDto GetTaskGroups(int taskId)
         {
-            return _responseProvider.GenerateGetResponse(() =>
-                _mapper.Map<IEnumerable<TaskGroupDto>>(_taskService.GetTaskGroups(taskId)));
+            return _responseProvider.GenerateGetResponse(() => {
+                ValidateUser(taskId);
+                return _mapper.Map<IEnumerable<TaskGroupDto>>(_taskService.GetTaskGroups(taskId));
+            });
         }
         
         [HttpGet(nameof(GetOwner))]
         public ResponseDto GetOwner(int taskId)
         {
-            return _responseProvider.GenerateGetResponse(() =>
-                _mapper.Map<UserDto>(_taskService.GetOwner(taskId)));
+            return _responseProvider.GenerateGetResponse(() => {
+                ValidateUser(taskId);
+                return _mapper.Map<UserDto>(_taskService.GetOwner(taskId));
+            });
         }
 
         [HttpPost(nameof(RemoveTask))]
@@ -56,6 +64,7 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(taskId);
                 _taskService.RemoveTask(taskId);
             });
         }
@@ -65,9 +74,19 @@ namespace TaskManager.Api.Controllers
         {
             return _responseProvider.GeneratePostResponse(() =>
             {
+                ValidateUser(taskId);
                 Task task = _mapper.Map<Task>(newTask);
                 _taskService.UpdateTask(taskId, task);
             });
+        }
+
+        private void ValidateUser(int taskId)
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (_taskService.GetOwner(taskId).Email != userEmail)
+            {
+                throw new UnauthorizedAccessException($"this user cannot perform operations with a task with the specified id: {taskId}");
+            }
         }
     }
 }

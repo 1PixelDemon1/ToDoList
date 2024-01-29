@@ -6,6 +6,7 @@ namespace TaskManager.Application.Services.Interface
     public interface IUserService
     {
         User GetUser(int id);
+        User GetUserByEmail(string email);
         IEnumerable<User>? GetAll();
         IEnumerable<Task>? GetTasks(int userId);
         IEnumerable<TaskGroup>? GetTaskGroups(int userId);
