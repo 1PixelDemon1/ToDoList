@@ -19,6 +19,17 @@ namespace TaskManager.Api
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
+
+            // CORS options.
+            var allowedOrigins = "AllowedOrigins";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: allowedOrigins,
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+                    });
+            });
             // Allows us to pass JWT in swagger.
             builder.Services.AddSwaggerGen(option =>
             {
@@ -82,6 +93,8 @@ namespace TaskManager.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors(allowedOrigins);
 
             app.UseAuthentication();
             app.UseAuthorization();
