@@ -1,0 +1,26 @@
+<div class="d-flex justify-content-center pb-5">
+    <!-- Todo list section -->
+    <div class="row mx-1 px-5 pb-3 w-75">
+        <div class="col mx-auto">
+            <!-- Todo Item -->
+            <div *ngFor="let taskgroup of taskgroups" class="row px-3 align-items-center todo-item rounded border mt-3">
+                <div class="col px-1 m-1 d-flex align-items-center w-50">
+                    <input type="text" class="form-control form-control-lg border-0 edit-todo-input bg-transparent rounded px-3" readonly value="{{taskgroup.name}}"/>
+                </div>
+                <div class="col-auto m-1 p-0 todo-actions w-30">
+                    <div class="row">
+                        <div class="col-auto d-flex align-items-center pr-2">
+                            <button class="fa fa-info-circle my-2 px-2 text-black-50 btn" data-toggle="tooltip" data-placement="bottom" (click)="view(taskgroup.id)">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="fa fa-info-circle my-2 px-2 text-black-50 btn" data-toggle="tooltip" data-placement="bottom" (click)="remove(taskgroup.id)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                            <label class="date-label my-2 text-black-50">{{taskgroup.isPrivate ? 'Private' : 'Has allowed users'}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
