@@ -136,7 +136,8 @@ namespace TaskManager.Api.Controllers
         private void ValidateUser(int taskGroupId)
         {
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-            if (_taskGroupService.GetOwner(taskGroupId).Email != userEmail)
+            if (_taskGroupService.GetOwner(taskGroupId).Email != userEmail 
+                && _taskGroupService.GetAllowedUsers(taskGroupId)?.FirstOrDefault(user => user.Email == userEmail) == null)
             {
                 throw new UnauthorizedAccessException($"this user cannot perform operations with an task group with the specified id: {taskGroupId}");
             }
