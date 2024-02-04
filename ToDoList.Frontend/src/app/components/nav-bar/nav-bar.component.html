@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="collapse navbar-collapse justify-content-md-center">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/alltasks">All tasks</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/taskgroups">Taskgroups</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/accessiblegroups">Accessible Taskgroups</a>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="!isLogged" class="px-3 text-white">
+    <a class="text-white" routerLink="/login">
+      <i class="bi bi-person-square"></i>
+    </a>
+    <a class="text-white" routerLink="/register">
+      Register
+    </a>
+  </div>
+  <div *ngIf="isLogged" class="px-3 text-white d-flex align-items-center">
+    Hello, {{username}}!
+    <span class="px-2"></span>
+    <a (click)="logout()">
+      <i class="bi bi-box-arrow-right"></i>
+    </a>
+  </div>
+
+</nav>
