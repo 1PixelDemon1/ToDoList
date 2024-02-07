@@ -1,0 +1,70 @@
+<div class="form-body pt-5 d-flex justify-content-around">
+    <div class="row w-50">
+        <div class="form-holder">
+            <div class="form-content">
+                <div class="form-items">
+                    <div class="row">
+                        <h3 class="col">Current value:</h3>
+                        <div class="col">
+                            <h3>Update task!</h3>
+                            <p>Fill data below:</p>
+                        </div>
+                    </div>
+                    <form class="requires-validation" (ngSubmit)="update()">
+                        <div class="row">
+                            <div class="col d-flex align-items-center">
+                                <p class="form-control">{{initialTaskModel.name}}</p>
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="text" name="name" placeholder="task name" required
+                                    [(ngModel)]="taskmodel.name">
+                                <div *ngIf="false">Name cannot be empty!</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col d-flex align-items-center mt-2">
+                                <p class="form-control h-100">{{initialTaskModel.description}}</p>
+                            </div>
+                            <div class="col">
+                                <textarea class="form-control" type="text" name="email" placeholder="task description"
+                                    required [(ngModel)]="taskmodel.description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col d-flex align-items-center mt-3">
+                                <p class="form-control">{{getStateText(initialTaskModel.state)}}</p>
+                            </div>
+                            <div class="col">
+                                <select class="form-select mt-3" name="state" required [(ngModel)]="taskmodel.state">
+                                    <option selected disabled value="-1">--select--current--task--state--</option>
+                                    <option class="text-primary" value="1">Not Started</option>
+                                    <option class="text-success" value="0">Complete</option>
+                                    <option class="text-danger" value="2">Failed</option>
+                                    <option class="text-secondary" value="3">Started</option>
+                                </select>
+                                <div *ngIf="false">Invalid state</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col d-flex align-items-center pt-2">
+                                <p class="form-control">{{initialTaskModel.deadLine | date : "dd.MM.yyyy"}}</p>
+                            </div>
+                            <div class="col pt-2">
+                                <input class="form-control" type="date" name="date" required
+                                    [(ngModel)]="taskmodel.deadLine">
+                                <div *ngIf="false">Invalid date!</div>
+                            </div>
+                        </div>
+
+                        <div class="form-button mt-3 d-flex justify-content-end">
+                            <button id="submit" type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

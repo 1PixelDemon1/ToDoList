@@ -16,15 +16,17 @@ namespace TaskManager.Api.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskService _taskService;
+        private readonly ITaskGroupService _taskGroupService;
         private readonly IMapper _mapper;
         private readonly IResponseProvider _responseProvider;
 
         public TaskController(ITaskService taskService, 
-            IMapper mapper, IResponseProvider responseProvider)
+            IMapper mapper, IResponseProvider responseProvider, ITaskGroupService taskGroupService)
         {
             _taskService = taskService;
             _mapper = mapper;
             _responseProvider = responseProvider;
+            _taskGroupService = taskGroupService;
         }
 
         [HttpGet(nameof(GetTask))]
@@ -83,7 +85,24 @@ namespace TaskManager.Api.Controllers
         private void ValidateUser(int taskId)
         {
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-            if (_taskService.GetOwner(taskId).Email != userEmail)
+            bool isOwner = _taskService.GetOwner(taskId).Email == userEmail;
+            if (isOwner) return;
+
+            bool isAllowedUser = false;
+            var taskGroups = _taskService.GetTaskGroups(taskId);
+            if(taskGroups != null)
+            {
+                foreach (var taskGroup in taskGroups)
+                {
+                    if(_taskGroupService.GetAllowedUsers(taskGroup.Id)?
+                        .FirstOrDefault(user => user.Email == userEmail) != null)
+                    {
+                        isAllowedUser = true;
+                        break;
+                    }
+                }
+            }
+            if (!isOwner && !isAllowedUser)
             {
                 throw new UnauthorizedAccessException($"this user cannot perform operations with a task with the specified id: {taskId}");
             }

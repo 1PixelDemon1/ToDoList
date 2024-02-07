@@ -70,6 +70,15 @@ namespace TaskManager.Api.Controllers
             });
         }
 
+        [HttpGet(nameof(GetUserByEmail))]
+        public ResponseDto GetUserByEmail(string email)
+        {
+            return _responseProvider.GenerateGetResponse(() => 
+                _mapper.Map<UserDto>(_userService.GetUserByEmail(email))
+            );
+        }
+
+
         [HttpPost(nameof(CreateUser))]
         public ResponseDto CreateUser([FromBody] UserDto userDto)
         {

@@ -14,10 +14,19 @@ namespace ToDoList.AuthService
         {
             var builder = WebApplication.CreateBuilder(args);
 
-
             builder.Services.AddControllers();
             builder.Services.AddDbContext<AuthenticationDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection")));
+
+            var allowedOrigins = "AllowedOrigins";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: allowedOrigins,
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+                    });
+            });
 
             // Populating JwtOptions class with
             // information from appsettings.json.
@@ -43,6 +52,9 @@ namespace ToDoList.AuthService
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors(allowedOrigins);
+
             // This api is managing authentication, so we add this.
             app.UseAuthentication();
             app.UseAuthorization();

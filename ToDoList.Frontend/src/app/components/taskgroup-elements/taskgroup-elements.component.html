@@ -1,0 +1,39 @@
+<div class="container m-5 p-2 rounded mx-auto bg-light shadow">
+    <!-- App title section -->
+    <div class="row m-1 p-4">
+        <div class="col">
+            <div class="p-1 h1 text-primary text-center mx-auto display-inline-block">
+                <i class="fa fa-check bg-primary text-white rounded p-2"></i>
+                <u>{{taskgroupName}}</u>
+                <form (submit)="addTasks()">
+                    <label class="fs-5 text-secondary">Add tasks to group:</label>
+                    <select class="form-select mt-3" required name="selectedTasks" [(ngModel)]="selectedTasks" multiple>
+                        <option *ngFor="let task of allowedtasks" value="{{task.id}}">{{task.name}}</option>
+                    </select>
+                    <div class="form-button mt-3 d-flex justify-content-end">
+                        <button id="submit" type="submit" class="btn btn-primary">Add selected tasks <i
+                                class="bi bi-check-square"></i></button>
+                    </div>
+                </form>
+                <form (submit)="addUser()">
+                    <label class="fs-5 text-secondary">Add user:</label>
+                    <input class="form-control" type="email" name="email" placeholder="email" required [(ngModel)]="userToAddEmail">
+                    <div class="form-button mt-3 d-flex justify-content-end">
+                        <button id="submit" type="submit" class="btn btn-primary">
+                            Add allowed user
+                            <i class="bi bi-check-square"></i>
+                        </button>
+                    </div>
+                </form>
+                <div class="row d-flex justify-content-end mt-3" *ngFor="let user of allowedusers"> 
+                    <p class="text-secondary fs-5 col-4" >{{user.email}}</p>
+                    <button class="col-1 fa fa-info-circle text-black-50 btn" data-toggle="tooltip" data-placement="bottom" (click)="removeUser(user.id)">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<app-taskgroup-task-list [tasks]="this.tasks" [taskgroupid]="taskgroupid"></app-taskgroup-task-list>
