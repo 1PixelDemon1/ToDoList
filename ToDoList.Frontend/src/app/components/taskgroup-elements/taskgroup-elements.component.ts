@@ -80,4 +80,9 @@ export class TaskgroupElementsComponent implements OnInit {
       }
     );
   }
+
+  removeUser(userId : number) : void 
+  {
+    this.taskgroupService.removeAllowedUser(this.taskgroupid, userId).subscribe();
+  }
 }
