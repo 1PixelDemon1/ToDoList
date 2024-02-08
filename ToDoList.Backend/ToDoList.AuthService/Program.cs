@@ -24,7 +24,7 @@ namespace ToDoList.AuthService
                 options.AddPolicy(name: allowedOrigins,
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+                        policy.WithOrigins("http://localhost:3000", "http://localhost:4200", "http://localhost:8080", "http://localhost:80", "http://localhost").AllowAnyMethod().AllowAnyHeader();
                     });
             });
 
