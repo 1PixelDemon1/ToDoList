@@ -33,6 +33,12 @@ export class UserdataService {
   }
 
   getUserModel() : Usermodel {
-    return JSON.parse(this.cookieService.get('user'))
+    if(this.isLogged())
+      return JSON.parse(this.cookieService.get('user'))
+    else return {
+        email : '',
+        fullName : '',
+        id : 0
+      };
   }
 }

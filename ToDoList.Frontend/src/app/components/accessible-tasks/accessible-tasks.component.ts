@@ -19,13 +19,15 @@ export class AccessibleTasksComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getAccessibleGroups().subscribe(
-      response => 
-      {
-       if(response.isSuccess) {
-        this.taskgroups = response.result;
-       }
-      }
-    );
+    if(this.userdataService.isLogged()) {
+      this.userService.getAccessibleGroups().subscribe(
+        response => 
+        {
+         if(response.isSuccess) {
+          this.taskgroups = response.result;
+         }
+        }
+      );
+    }
   }
 }

@@ -20,13 +20,15 @@ export class TaskgroupsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getTaskGroups().subscribe(
-      response => 
-      {
-       if(response.isSuccess) {
-        this.taskgroups = response.result;
-       }
-      }
-    );
+    if(this.userdataService.isLogged()) {
+      this.userService.getTaskGroups().subscribe(
+        response => 
+        {
+         if(response.isSuccess) {
+          this.taskgroups = response.result;
+         }
+        }
+      );
+    }
   }
 }

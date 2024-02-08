@@ -5,6 +5,7 @@ import { TaskgroupService } from '../../services/taskgroup/taskgroup.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { Usermodel } from '../../models/usermodel/usermodel.model';
+import { UserdataService } from '../../services/userdata/userdata.service';
 
 @Component({
   selector: 'app-taskgroup-elements',
@@ -20,46 +21,49 @@ export class TaskgroupElementsComponent implements OnInit {
   selectedTasks: number[] = [];
   userToAddEmail : string = '';
 
-  constructor(private userService: UserService, private taskgroupService : TaskgroupService, private route: ActivatedRoute) {}
+  constructor(private userService: UserService, private taskgroupService : TaskgroupService, private route: ActivatedRoute, private userdataService : UserdataService) {}
 
   ngOnInit(): void {
+
     this.route.params.subscribe(params => {
        this.taskgroupid = params['id'];
      });
-
-     this.userService.getTasks().subscribe(
-      response => 
-      {
-        this.allowedtasks = response.result;
-      }
-     );
-
-     this.taskgroupService.getTasks(this.taskgroupid).subscribe(
+     
+     if(this.userdataService.isLogged()) {
+      this.userService.getTasks().subscribe(
+        response => 
+        {
+          this.allowedtasks = response.result;
+        }
+       );
+  
+       this.taskgroupService.getTasks(this.taskgroupid).subscribe(
+          response =>
+          {
+            console.log(response);
+            if(response.isSuccess) {
+              this.tasks = response.result;
+            }
+          }
+       );
+  
+       this.taskgroupService.getTaskGroup(this.taskgroupid).subscribe(
         response =>
         {
-          console.log(response);
-          if(response.isSuccess) {
-            this.tasks = response.result;
+          this.taskgroupName = response.result.name;
+        }
+       );
+  
+       this.taskgroupService.getAllowedUsers(this.taskgroupid).subscribe(
+        response => 
+        {
+          if(response.isSuccess) 
+          {
+            this.allowedusers = response.result;
           }
         }
-     );
-
-     this.taskgroupService.getTaskGroup(this.taskgroupid).subscribe(
-      response =>
-      {
-        this.taskgroupName = response.result.name;
-      }
-     );
-
-     this.taskgroupService.getAllowedUsers(this.taskgroupid).subscribe(
-      response => 
-      {
-        if(response.isSuccess) 
-        {
-          this.allowedusers = response.result;
-        }
-      }
-     );
+       );
+     }
   }
 
   addTasks() : void {
