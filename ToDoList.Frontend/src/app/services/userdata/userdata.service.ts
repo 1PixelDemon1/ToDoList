@@ -13,7 +13,10 @@ export class UserdataService {
     return this.cookieService.get('token') != ''; 
   }
   setToken(token: string): void {
-    this.cookieService.set('token', token);
+    var expire = new Date();
+    var time = Date.now() + ((3600 * 1000) * 24 * 7);
+    expire.setTime(time);
+    this.cookieService.set('token', token, expire);
   }
 
   getToken(): string {
@@ -25,7 +28,10 @@ export class UserdataService {
   }
 
   updateUserModel(usermodel: Usermodel) : void {
-    this.cookieService.set('user', JSON.stringify(usermodel));
+    var expire = new Date();
+    var time = Date.now() + ((3600 * 1000) * 24 * 7);
+    expire.setTime(time);
+    this.cookieService.set('user', JSON.stringify(usermodel), expire);
   }
   
   removeUserModel() : void {

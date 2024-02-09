@@ -11,7 +11,7 @@ import { Registrationrequestmodel } from '../../models/registrationrequestmodel/
   providedIn: 'root'
 })
 export class AuthService {
-  private basePath: string = "https://localhost:7014/api/auth/";
+  private basePath: string = "http://localhost:7014/api/auth/";
 
   constructor(private http: HttpClient, private userdataService: UserdataService, private userService: UserService) { }
 
