@@ -10,7 +10,7 @@ import { UserdataService } from '../userdata/userdata.service';
 })
 export class TaskService {
 
-  private basePath: string = "https://localhost:7252/api/task/";
+  private basePath: string = "http://localhost:7252/api/task/";
   
   constructor(private http: HttpClient, private userdata: UserdataService) { }
 

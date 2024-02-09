@@ -1,0 +1,77 @@
+networks:
+    auth_network:
+        driver: bridge
+    taskmanager_network:
+        driver: bridge
+    frontend:
+        driver: bridge
+    
+        
+services:
+# Auth service
+    authservice:
+        image: pixeldemon/todolist.auth
+        depends_on: 
+            - "auth_db"
+        container_name: todolist.auth
+        ports:
+            - "7014:7014"
+        environment:
+            - ConnectionStrings:DbConnection=Server=auth_db;DataBase=ToDoListAuth;Port=5432;User Id=postgres;Password=postgres;Pooling=true
+            - ASPNETCORE_URLS=http://+:7014
+        networks:
+            - auth_network
+            - frontend
+    auth_db:
+        image: postgres:latest
+        container_name: todolist.auth_db
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=ToDoListAuth
+        ports:
+            - "5433:5432"
+        restart: always
+        volumes:
+            - app_data:/var/lib/postgresql/data
+        networks:
+            - auth_network
+# Task manager
+    taskmanagerservice:
+        image: pixeldemon/todolist.taskmanager
+        depends_on: 
+            - "taskmanager_db"
+        container_name: todolist.taskmanager
+        ports:
+            - "7252:7252"
+        environment:
+            - DbConnection=Server=taskmanager_db;DataBase=ToDoListTaskManager;Port=5432;User Id=postgres;Password=postgres;Pooling=true
+            - ASPNETCORE_URLS=http://+:7252
+        networks:
+            - taskmanager_network
+            - frontend
+    taskmanager_db:
+        image: postgres:latest
+        container_name: todolist.taskmanager_db
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=ToDoListTaskManager
+        ports:
+            - "5432:5432"
+        restart: always
+        volumes:
+            - app_data:/var/lib/postgresql/data
+        networks:
+            - taskmanager_network
+# Frontend 
+    frontend:
+        image: pixeldemon/todolist.frontend
+        container_name: todolist.frontend
+        ports:
+            - "80:80"
+        networks:
+            - frontend
+volumes:
+    app_data:
+    

@@ -11,22 +11,27 @@ import { UserdataService } from '../../services/userdata/userdata.service';
 })
 export class TaskgroupsComponent implements OnInit {
 
-  constructor(private userService: UserService, private userdataService: UserdataService) {}
-  
-  taskgroups : Taskgroupmodel[] = []
+  constructor(private userService: UserService, private userdataService: UserdataService) { }
 
-  isLogged() : boolean {
-    return this.userdataService.isLogged();
+  islogged: boolean = false;
+
+  taskgroups: Taskgroupmodel[] = []
+
+  isLogged(): boolean {
+    return this.islogged;
   }
 
   ngOnInit(): void {
-    this.userService.getTaskGroups().subscribe(
-      response => 
-      {
-       if(response.isSuccess) {
-        this.taskgroups = response.result;
-       }
-      }
-    );
+    this.islogged = this.userdataService.isLogged()
+    if (this.islogged) {
+
+      this.userService.getTaskGroups().subscribe(
+        response => {
+          if (response.isSuccess) {
+            this.taskgroups = response.result;
+          }
+        }
+      );
+    }
   }
 }

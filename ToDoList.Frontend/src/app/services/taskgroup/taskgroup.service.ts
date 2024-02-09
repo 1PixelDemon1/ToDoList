@@ -9,7 +9,7 @@ import { Taskgroupmodel } from '../../models/taskgroupmodel/taskgroupmodel.model
   providedIn: 'root'
 })
 export class TaskgroupService {
-  private basePath: string = "https://localhost:7252/api/taskgroup/";
+  private basePath: string = "http://localhost:7252/api/taskgroup/";
 
   constructor(private http: HttpClient, private userdata: UserdataService) { }
 

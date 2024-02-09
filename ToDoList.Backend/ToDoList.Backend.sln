@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Domain", "TaskM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDoList.Authentication", "ToDoList.Authentication", "{B37A9DB9-F446-411A-B652-5AA448EDFB05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.AuthService", "ToDoList.AuthService\ToDoList.AuthService.csproj", "{0221057D-5747-4FED-B442-AD0DD03059E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoList.AuthService", "ToDoList.AuthService\ToDoList.AuthService.csproj", "{0221057D-5747-4FED-B442-AD0DD03059E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

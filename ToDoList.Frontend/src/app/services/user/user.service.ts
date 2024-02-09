@@ -12,7 +12,7 @@ import { Usermodel } from '../../models/usermodel/usermodel.model';
 })
 export class UserService {
 
-  private basePath: string = "https://localhost:7252/api/user/";
+  private basePath: string = "http://localhost:7252/api/user/";
 
   constructor(private http: HttpClient, private userdata: UserdataService) { }
 

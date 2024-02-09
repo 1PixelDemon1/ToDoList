@@ -9,17 +9,21 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class NavBarComponent implements OnInit{
 
-  isLogged : boolean = false;
-
   username: string = '';
 
   constructor(private userdataService : UserdataService, private authservice: AuthService) {}
   ngOnInit(): void {
-    this.isLogged = this.userdataService.isLogged();
-    this.username = this.userdataService.getUserModel().fullName;
+    if(this.isLogged()) {
+      this.username = this.userdataService.getUserModel().fullName;
+    }
   }
 
+  isLogged() : boolean {
+    return this.userdataService.isLogged();
+  }
+  
   logout() {
+    console.log("LOGOUT")
     this.authservice.logout();
   }
 

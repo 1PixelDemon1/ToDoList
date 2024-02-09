@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Usermodel } from '../../models/usermodel/usermodel.model';
 import {CookieService} from 'ngx-cookie-service';
+import path from 'node:path';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,10 @@ export class UserdataService {
     return this.cookieService.get('token') != ''; 
   }
   setToken(token: string): void {
-    this.cookieService.set('token', token);
+    var expire = new Date();
+    var time = Date.now() + ((3600 * 1000) * 24 * 7);
+    expire.setTime(time);
+    this.cookieService.set('token', token, {expires: expire, path: "/"});
   }
 
   getToken(): string {
@@ -21,18 +25,27 @@ export class UserdataService {
   }
 
   removeToken(): void {
-    this.cookieService.delete('token');
+    this.cookieService.delete('token', "/");
   }
 
   updateUserModel(usermodel: Usermodel) : void {
-    this.cookieService.set('user', JSON.stringify(usermodel));
+    var expire = new Date();
+    var time = Date.now() + ((3600 * 1000) * 24 * 7);
+    expire.setTime(time);
+    this.cookieService.set('user', JSON.stringify(usermodel), {expires: expire, path: "/"});
   }
   
   removeUserModel() : void {
-    this.cookieService.delete('user');
+    this.cookieService.delete('user', "/");
   }
 
   getUserModel() : Usermodel {
-    return JSON.parse(this.cookieService.get('user'))
+    if(this.isLogged())
+      return JSON.parse(this.cookieService.get('user'))
+    else return {
+        email : '',
+        fullName : '',
+        id : 0
+      };
   }
 }

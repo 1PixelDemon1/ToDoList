@@ -4,7 +4,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { AllTasksComponent } from './components/all-tasks/all-tasks.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FormsModule } from '@angular/forms';
@@ -19,6 +19,8 @@ import { TaskgroupTaskListComponent } from './components/taskgroup-task-list/tas
 import { RegisterComponent } from './components/register/register.component';
 import { AccessibleTasksComponent } from './components/accessible-tasks/accessible-tasks.component';
 import { NewTaskgroupComponent } from './components/new-taskgroup/new-taskgroup.component';
+import { TaskstateValidatorDirective } from './validators/taskstate-validator.directive';
+import { AspPasswordValidatorDirective } from './validators/asp-password-validator.directive';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { NewTaskgroupComponent } from './components/new-taskgroup/new-taskgroup.
     RegisterComponent,
     AccessibleTasksComponent,
     NewTaskgroupComponent,
+    TaskstateValidatorDirective,
+    AspPasswordValidatorDirective,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,7 @@ import { NewTaskgroupComponent } from './components/new-taskgroup/new-taskgroup.
     RouterModule
   ],
   providers: [
-    provideClientHydration(), provideHttpClient()
+    provideClientHydration(), provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })

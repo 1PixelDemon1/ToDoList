@@ -10,15 +10,14 @@
                             <p>Fill data below:</p>
                         </div>
                     </div>
-                    <form class="requires-validation" (ngSubmit)="update()">
+                    <form #form="ngForm" class="requires-validation" (ngSubmit)="update()">
                         <div class="row">
                             <div class="col d-flex align-items-center">
                                 <p class="form-control">{{initialTaskModel.name}}</p>
                             </div>
                             <div class="col">
-                                <input class="form-control" type="text" name="name" placeholder="task name" required
-                                    [(ngModel)]="taskmodel.name">
-                                <div *ngIf="false">Name cannot be empty!</div>
+                                <input class="form-control" type="text" name="name" placeholder="task name" required #name="ngModel" [(ngModel)]="taskmodel.name">
+                                <div *ngIf="name.invalid && name.touched">Name cannot be empty!</div>
                             </div>
                         </div>
 
@@ -27,8 +26,7 @@
                                 <p class="form-control h-100">{{initialTaskModel.description}}</p>
                             </div>
                             <div class="col">
-                                <textarea class="form-control" type="text" name="email" placeholder="task description"
-                                    required [(ngModel)]="taskmodel.description"></textarea>
+                                <textarea class="form-control" type="text" name="email" placeholder="task description" [(ngModel)]="taskmodel.description"></textarea>
                             </div>
                         </div>
 
@@ -37,14 +35,14 @@
                                 <p class="form-control">{{getStateText(initialTaskModel.state)}}</p>
                             </div>
                             <div class="col">
-                                <select class="form-select mt-3" name="state" required [(ngModel)]="taskmodel.state">
+                                <select class="form-select mt-3" name="state" #state="ngModel" taskstate-validator required [(ngModel)]="taskmodel.state">
                                     <option selected disabled value="-1">--select--current--task--state--</option>
                                     <option class="text-primary" value="1">Not Started</option>
                                     <option class="text-success" value="0">Complete</option>
                                     <option class="text-danger" value="2">Failed</option>
                                     <option class="text-secondary" value="3">Started</option>
                                 </select>
-                                <div *ngIf="false">Invalid state</div>
+                                <div *ngIf="state.invalid && state.touched">Invalid state</div>
                             </div>
                         </div>
 
@@ -53,14 +51,13 @@
                                 <p class="form-control">{{initialTaskModel.deadLine | date : "dd.MM.yyyy"}}</p>
                             </div>
                             <div class="col pt-2">
-                                <input class="form-control" type="date" name="date" required
-                                    [(ngModel)]="taskmodel.deadLine">
-                                <div *ngIf="false">Invalid date!</div>
+                                <input class="form-control" type="date" name="date" #date="ngModel" required [(ngModel)]="taskmodel.deadLine">
+                                <div *ngIf="date.invalid && date.touched">Invalid date!</div>
                             </div>
                         </div>
 
                         <div class="form-button mt-3 d-flex justify-content-end">
-                            <button id="submit" type="submit" class="btn btn-primary">Update</button>
+                            <button [disabled]="form.invalid" id="submit" type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
                 </div>
