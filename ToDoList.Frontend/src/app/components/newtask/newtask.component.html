@@ -5,35 +5,34 @@
                 <div class="form-items">
                     <h3>Add New Task Now!</h3>
                     <p>Fill data below:</p>
-                    <form class="requires-validation" (ngSubmit)="create()">
+                    <form #form="ngForm" class="requires-validation" (ngSubmit)="create()">
 
                         <div class="col-md-12">
-                           <input class="form-control" type="text" name="name" placeholder="task name" required [(ngModel)]="taskmodel.name">
-                           <div *ngIf="false">Name cannot be empty!</div>
+                           <input class="form-control" type="text" name="name" placeholder="task name" required [(ngModel)]="taskmodel.name" #name="ngModel">
+                           <div *ngIf="name.invalid && name.touched">Name cannot be empty!</div>
                         </div>
 
                         <div class="col-md-12 pt-2">
-                            <textarea class="form-control" type="text" name="email" placeholder="task description" required [(ngModel)]="taskmodel.description"></textarea>
-                             <!-- <div *ngIf="false"></div> -->
+                            <textarea class="form-control" type="text" name="email" placeholder="task description" [(ngModel)]="taskmodel.description"></textarea>
                         </div>
 
                        <div class="col-md-12 pt-2">
-                            <select class="form-select mt-3" name="state" required [(ngModel)]="taskmodel.state">
+                            <select class="form-select mt-3" name="state" required taskstate-validator [(ngModel)]="taskmodel.state" #state="ngModel">
                                   <option selected disabled value="-1">--select--current--task--state--</option>
                                   <option class="text-primary" value="1">Not Started</option>
                                   <option class="text-success" value="0">Complete</option>
                                   <option class="text-danger" value="2">Failed</option>
                                   <option class="text-secondary" value="3">Started</option>
                            </select>
-                            <div *ngIf="false">Invalid state</div>
+                            <div *ngIf="state.invalid && state.touched">Invalid state</div>
                        </div>
                        <div class="col-md-4 pt-2">
-                          <input class="form-control" type="date" name="date" required [(ngModel)]="taskmodel.deadLine">
-                           <div *ngIf="false">Invalid date!</div>
+                          <input class="form-control" type="date" name="date" required [(ngModel)]="taskmodel.deadLine" #date="ngModel">
+                           <div *ngIf="date.invalid && date.touched">Select date!</div>
                        </div>
 
                         <div class="form-button mt-3 d-flex justify-content-end">
-                            <button id="submit" type="submit" class="btn btn-primary">Add new task <i class="bi bi-check-square"></i></button>
+                            <button [disabled]="form.invalid" id="submit" type="submit" class="btn btn-primary">Add new task <i class="bi bi-check-square"></i></button>
                         </div>
                     </form>
                 </div>

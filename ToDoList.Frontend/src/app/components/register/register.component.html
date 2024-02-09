@@ -1,4 +1,4 @@
-<form class="container py-5 h-100" (ngSubmit)="register()">
+<form #form="ngForm" class="container py-5 h-100" (ngSubmit)="register()">
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
             <div class="card shadow-2-strong" style="border-radius: 1rem;">
@@ -7,18 +7,36 @@
                     <h3 class="mb-5">Sign in</h3>
 
                     <div class="form-outline mb-4">
-                        <input type="email" class="form-control form-control-lg" name="email" [(ngModel)]="registerRequest.email" />
+                        <input type="email" class="form-control form-control-lg" name="email" required email #email="ngModel" [(ngModel)]="registerRequest.email" />
                         <label class="form-label" for="typeEmailX-2">Email</label>
+                        <div *ngIf="email.invalid && email.touched">Invalid email</div>
                     </div>
                     <div class="form-outline mb-4">
-                        <input type="text" class="form-control form-control-lg" name="fullName" [(ngModel)]="registerRequest.fullName" />
+                        <input type="text" class="form-control form-control-lg" name="fullName" #fullName="ngModel" required pattern="^[^\s]*$" [(ngModel)]="registerRequest.fullName" />
                         <label class="form-label" for="typePasswordX-2">Full Name</label>
+                        <div *ngIf="fullName.invalid && fullName.touched">
+                            <div *ngIf="fullName.errors?.['pattern']">
+                                Name cannot include whitespaces
+                            </div>
+                            <div *ngIf="fullName.errors?.['required']">
+                                Name cannot be empty
+                            </div>
+                        </div>
                     </div>
                     <div class="form-outline mb-4">
-                        <input type="password" class="form-control form-control-lg" name="password" [(ngModel)]="registerRequest.password" />
+                        <input type="password" class="form-control form-control-lg" name="password" #password="ngModel" pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$" [(ngModel)]="registerRequest.password" />
                         <label class="form-label" for="typePasswordX-2">Password</label>
+                        <div *ngIf="password.invalid && password.touched">Password must include: 
+                            <pre class="text-start">
+                                
+At least one upper case English letter
+At least one lower case English letter
+At least one digit
+At least one special character
+Minimum eight in length
+                            </pre></div>
                     </div>
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                    <button class="btn btn-primary btn-lg btn-block" [disabled]="form.invalid" type="submit">Login</button>
                 </div>
             </div>
         </div>

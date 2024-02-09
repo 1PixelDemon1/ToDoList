@@ -20,6 +20,7 @@ export class NewTaskgroupComponent {
   constructor(private userService: UserService, private router: Router) {}
 
   create() : void {
+    console.log("AGAGGAGAG");
     this.userService.addTaskGroup(this.taskgroupmodel).subscribe();
   }
 }

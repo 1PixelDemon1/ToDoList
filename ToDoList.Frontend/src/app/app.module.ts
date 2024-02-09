@@ -19,6 +19,8 @@ import { TaskgroupTaskListComponent } from './components/taskgroup-task-list/tas
 import { RegisterComponent } from './components/register/register.component';
 import { AccessibleTasksComponent } from './components/accessible-tasks/accessible-tasks.component';
 import { NewTaskgroupComponent } from './components/new-taskgroup/new-taskgroup.component';
+import { TaskstateValidatorDirective } from './validators/taskstate-validator.directive';
+import { AspPasswordValidatorDirective } from './validators/asp-password-validator.directive';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { NewTaskgroupComponent } from './components/new-taskgroup/new-taskgroup.
     RegisterComponent,
     AccessibleTasksComponent,
     NewTaskgroupComponent,
+    TaskstateValidatorDirective,
+    AspPasswordValidatorDirective,
   ],
   imports: [
     BrowserModule,

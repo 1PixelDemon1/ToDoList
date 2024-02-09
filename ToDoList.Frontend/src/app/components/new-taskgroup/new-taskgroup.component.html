@@ -5,18 +5,18 @@
                 <div class="form-items">
                     <h3>Add New Task Now!</h3>
                     <p>Fill data below:</p>
-                    <form class="requires-validation" (ngSubmit)="create()">
+                    <form #form="ngForm" class="requires-validation" (ngSubmit)="create()">
 
                         <div class="col-md-12">
-                           <input class="form-control" type="text" name="name" placeholder="Group name" required [(ngModel)]="taskgroupmodel.name">
-                           <div *ngIf="false">Name cannot be empty!</div>
+                           <input class="form-control" type="text" name="name" placeholder="Group name" #name="ngModel" required [(ngModel)]="taskgroupmodel.name">
+                           <div *ngIf="name.invalid && name.touched">Name cannot be empty!</div>
                         </div>
                         <div class="form-check pt-4">
-                            <input class="form-check-input" type="checkbox" name="isPrivate" required [(ngModel)]="taskgroupmodel.isPrivate"/>
+                            <input class="form-check-input" type="checkbox" name="isPrivate" [(ngModel)]="taskgroupmodel.isPrivate"/>
                             <label class="form-check-label" for="form2Example31"> Private </label>
                           </div>
                         <div class="form-button mt-3 d-flex justify-content-end">
-                            <button id="submit" type="submit" class="btn btn-primary">Add new taskgroup <i class="bi bi-check-square"></i></button>
+                            <button [disabled]="form.invalid" id="submit" type="submit" class="btn btn-primary">Add new taskgroup <i class="bi bi-check-square"></i></button>
                         </div>
                     </form>
                 </div>

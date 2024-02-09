@@ -18,7 +18,7 @@ export class NewtaskComponent {
     name: '',
     state: -1
   }
-
+  
   constructor(private userService: UserService, private router: Router) {}
 
   create() : void {
