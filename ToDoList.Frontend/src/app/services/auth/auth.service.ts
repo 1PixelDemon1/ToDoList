@@ -31,6 +31,7 @@ export class AuthService {
   }
 
   logout(): void {
+    console.log("LOGOUT");
     this.userdataService.removeToken();
     this.userdataService.removeUserModel();
   }
