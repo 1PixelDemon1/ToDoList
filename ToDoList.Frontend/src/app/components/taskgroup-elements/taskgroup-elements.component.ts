@@ -18,13 +18,13 @@ export class TaskgroupElementsComponent implements OnInit {
   allowedusers : Usermodel[] = [];
   taskgroupid: number = 0;
   taskgroupName : string = '';
+  isPrivate: boolean = true;
   selectedTasks: number[] = [];
   userToAddEmail : string = '';
 
   constructor(private userService: UserService, private taskgroupService : TaskgroupService, private route: ActivatedRoute, private userdataService : UserdataService) {}
 
   ngOnInit(): void {
-
     this.route.params.subscribe(params => {
        this.taskgroupid = params['id'];
      });
@@ -51,6 +51,7 @@ export class TaskgroupElementsComponent implements OnInit {
         response =>
         {
           this.taskgroupName = response.result.name;
+          this.isPrivate = response.result.isPrivate;
         }
        );
   
