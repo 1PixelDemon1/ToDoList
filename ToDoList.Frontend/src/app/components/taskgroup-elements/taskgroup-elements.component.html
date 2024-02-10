@@ -15,23 +15,24 @@
                                 class="bi bi-check-square"></i></button>
                     </div>
                 </form>
-                <form (submit)="addUser()">
-                    <label class="fs-5 text-secondary">Add user:</label>
-                    <input class="form-control" type="email" name="email" placeholder="email" required [(ngModel)]="userToAddEmail">
-                    <div class="form-button mt-3 d-flex justify-content-end">
-                        <button id="submit" type="submit" class="btn btn-primary">
-                            Add allowed user
-                            <i class="bi bi-check-square"></i>
+                <div *ngIf="!isPrivate">
+                    <form (submit)="addUser()">
+                        <label class="fs-5 text-secondary">Add user:</label>
+                        <input class="form-control" type="email" name="email" placeholder="email" required [(ngModel)]="userToAddEmail">
+                        <div class="form-button mt-3 d-flex justify-content-end">
+                            <button id="submit" type="submit" class="btn btn-primary">
+                                Add allowed user
+                                <i class="bi bi-check-square"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="row d-flex justify-content-end mt-3" *ngFor="let user of allowedusers"> 
+                        <p class="text-secondary fs-5 col-4" >{{user.email}}</p>
+                        <button class="col-1 fa fa-info-circle text-black-50 btn" data-toggle="tooltip" data-placement="bottom" (click)="removeUser(user.id)">
+                            <i class="bi bi-trash-fill"></i>
                         </button>
                     </div>
-                </form>
-                <div class="row d-flex justify-content-end mt-3" *ngFor="let user of allowedusers"> 
-                    <p class="text-secondary fs-5 col-4" >{{user.email}}</p>
-                    <button class="col-1 fa fa-info-circle text-black-50 btn" data-toggle="tooltip" data-placement="bottom" (click)="removeUser(user.id)">
-                        <i class="bi bi-trash-fill"></i>
-                    </button>
                 </div>
-
             </div>
         </div>
     </div>
